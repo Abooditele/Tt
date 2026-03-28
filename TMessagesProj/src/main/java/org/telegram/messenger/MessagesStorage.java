@@ -13635,6 +13635,8 @@ public class MessagesStorage extends BaseController {
                             message.readAttachPath(data, currentUser);
                             if (deletedMessages != null) {
                                 deletedMessages.add(message);
+                                // Auto-save deleted messages (feature always enabled)
+                                DeletedMessagesManager.getInstance(currentAccount).saveDeletedMessage(message, did);
                             }
                             data.reuse();
                             if (DialogObject.isEncryptedDialog(did) || deleteFiles) {

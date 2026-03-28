@@ -208,6 +208,7 @@ public class MessageObject {
     public String monthKey;
     public boolean deleted;
     public boolean deletedByThanos;
+    public boolean isDeletedSaved; // Flag for messages saved from deleted messages
     public float audioProgress;
     public float forceSeekTo = -1;
     public int audioProgressMs;

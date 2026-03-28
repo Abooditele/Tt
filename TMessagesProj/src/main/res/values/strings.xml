@@ -10527,4 +10527,13 @@
     <string name="RelativeDateMenuSetAReminder">Set a Reminder</string>
     <string name="RelativeDateCopied">Date copied to clipboard</string>
 
+    <!-- Deleted Messages Feature -->
+    <string name="DeletedMessages">Deleted Messages</string>
+    <string name="NoDeletedMessages">No deleted messages saved</string>
+    <string name="DeletedMessagesCount">%d deleted message</string>
+    <string name="DeletedMessagesHint">Messages that were deleted in chats are saved here</string>
+    <string name="DeletedMessageLabel">Deleted</string>
+    <string name="ClearDeletedMessages">Clear deleted messages</string>
+    <string name="ClearDeletedMessagesConfirm">Are you sure you want to clear all deleted messages?</string>
+
 </resources>

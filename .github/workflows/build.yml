@@ -17,7 +17,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout$v4
+      uses: actions/checkout@v4
       with:
         submodules: recursive
         fetch-depth: 0
@@ -44,8 +44,8 @@ jobs:
       uses: actions/cache@v4
       with:
         path: |
-          ~~.gradle/caches
-          ~~.gradle/wrapper
+          ~/.gradle/caches
+          ~/.gradle/wrapper
         key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
         restore-keys: |
           gradle-${{ runner.os }}-
@@ -55,7 +55,7 @@ jobs:
 
     - name: Create local.properties
       run: |
-        echo "sdk.ir=$ANDROID_SDK_ROOT" > local.properties
+        echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
         echo "ndk.dir=$ANDROID_SDK_ROOT/ndk/21.4.7075529" >> local.properties
         echo "RELEASE_KEY_PASSWORD=android" >> local.properties
         echo "RELEASE_KEY_ALIAS=androidreleasekey" >> local.properties
@@ -63,23 +63,26 @@ jobs:
 
     - name: Build with Gradle
       run: |
-        ./gradlew :TMessagesProj:assembleHA_private --no-daemon --stacktrace
+        ./gradlew :TMessagesProj_App:assembleAfatRelease --no-daemon --stacktrace
       env:
         TELEGRAM_APP_ID: ${{ secrets.TELEGRAM_APP_ID }}
         TELEGRAM_APP_HASH: ${{ secrets.TELEGRAM_APP_HASH }}
       timeout-minutes: 180
 
-    - name: Upload APK
+    - name: Find and upload APK
       uses: actions/upload-artifact@v4
       with:
         name: telegram-apk
-        path: TMessagesProj/build/outputs/apk/*/release/*.apk
-        if-no-files-found: warn
+        path: |
+          TMessagesProj_App/build/outputs/apk/**/*.apk
+        if-no-files-found: error
 
     - name: Upload build logs
       if: failure()
       uses: actions/upload-artifact@v4
       with:
         name: build-logs
-        path: TMessagesProj/build/outputs/logs/
+        path: |
+          TMessagesProj_App/build/outputs/logs/
+          TMessagesProj/build/outputs/logs/
         if-no-files-found: ignore
